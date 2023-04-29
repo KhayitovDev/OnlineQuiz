@@ -30,7 +30,11 @@ INSTALLED_APPS = [
 
     #local apps
     'online_quiz', 
+    "crispy_forms",
+    "crispy_bootstrap4",
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
