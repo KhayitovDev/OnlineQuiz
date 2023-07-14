@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class OnlineQuizConfig(AppConfig):
+class QuizappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'online_quiz'
+    name = 'quizapp'
