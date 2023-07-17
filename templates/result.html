@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Results for {{result.user}}</h1>
+                    <div class="text-center">
+                        <h4 class="card-subtitle mb-3">Correct Answers: {{ result.correct }}/{{ result.total }}</h4>
+                        <p class="card-text">You scored {{result.percentage}}% on the quiz.</p>
+                        <p class="card-text">Wrong Answers: {{ result.wrong}}</p>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <a href="{% url 'leaders_board' %}" class="btn btn-primary">See Leaderboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  
+{% endblock content %}
+

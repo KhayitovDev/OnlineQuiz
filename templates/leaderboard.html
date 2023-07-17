@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Leaderboard</h1>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Name</th>
+                                    <th>Score</th>
+                                    <th>Level</th>
+                                    <th>category</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for leader in leaders %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{leader.user.username}}</td>
+                                    <td>{{leader.score}}</td>
+                                    <td>{{leader.level.title}}</td>
+                                    <td>{{leader.category.title}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <a href="#" class="btn btn-primary">Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+{% endblock content %}
+

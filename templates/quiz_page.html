@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-8 col-lg-8">
+            <div class="border">
+                <div class="question bg-white p-3 border-bottom">
+                    <div class="d-flex flex-row justify-content-between align-items-center mcq">
+                        <h4>MCQ Quiz</h4>
+                    </div>
+                </div>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {% for quiz in quizzes %}
+                    <div class="question bg-white p-3 border-bottom">
+                        <div class="d-flex flex-row align-items-center question-title">
+                            <h3 class="text-danger">Q.</h3>
+                            <h5 class="mt-1 ml-2">{{ quiz.title }}</h5>
+                        </div>
+                        <div>
+                            <input type="radio" name="{{ quiz.id }}" value="option1" class="form-check-input">
+                            <label class="form-check-label">{{ quiz.option1 }}</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="{{ quiz.id }}" value="option2" class="form-check-input">
+                            <label class="form-check-label">{{ quiz.option2 }}</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="{{ quiz.id }}" value="option3" class="form-check-input">
+                            <label class="form-check-label">{{ quiz.option3 }}</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="{{ quiz.id }}" value="option4" class="form-check-input">
+                            <label class="form-check-label">{{ quiz.option4 }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <br>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+               
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
