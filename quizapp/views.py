@@ -1,13 +1,30 @@
 from typing import Any, Dict
 from django.db import models
 from random import shuffle
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView,CreateView
 from .models import Quiz, Category, Level, UserAnswer
 from django.db.models import Q
-# Create your views here.
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
+from .forms import CustomUserCreationForm, CustomLoginForm, QuizCreationForm, CategoryCreationForm, LevelCreationForm
+from django.contrib.auth.views import LoginView, LogoutView
 
+
+
+class UserCreateView(CreateView):
+    form_class=CustomUserCreationForm
+    template_name='register.html'
+    success_url=reverse_lazy('login')
+
+class UserLogin(LoginView):
+    form_class=CustomLoginForm
+    template_name='login.html'
+    success_url=reverse_lazy('category')
+
+class UserLogout(LogoutView):
+    next_page=reverse_lazy('category')
 
 class CategoryListView(ListView):
     template_name='category.html'
@@ -28,7 +45,7 @@ class LevelsListView(ListView):
         category_id = self.kwargs['pk']
         return Level.objects.filter(quiz__category_id=category_id).distinct()
 
-class QuizListView(ListView):
+class QuizListView(LoginRequiredMixin, ListView):
     template_name = 'quiz_page.html'
     context_object_name = 'quizzes'
 
@@ -74,27 +91,52 @@ class QuizListView(ListView):
             'percentage': percentage,
             'correct': correct,
             'wrong': wrong,
-            'user':user
+            'user':user,
+            'category_id': category_id,
+            'pk': pk,
         }
 
         return render(request, 'result.html', {'result': result})
 
-class LeadboardListView(ListView):
+class LeadboardListView(LoginRequiredMixin, ListView):
     template_name = 'leaderboard.html'
     context_object_name = 'leaders'
 
     def get_queryset(self):
-        category_id = self.request.GET.get('category_id')
-        level_id = self.request.GET.get('level_id')
-
-        queryset = UserAnswer.objects.all()
-
-        if category_id and level_id:
-            queryset = queryset.filter(category_id=category_id, level_id=level_id)
-        elif category_id:
-            queryset = queryset.filter(category_id=category_id)
-        elif level_id:
-            queryset = queryset.filter(level_id=level_id)
-
-        queryset = queryset.order_by('-score')
+        category_id = self.kwargs['category_id']
+        level_id = self.kwargs['pk']
+        queryset = UserAnswer.objects.filter(category_id=category_id, level_id=level_id).order_by('-score')
         return queryset
+    
+class QuizCreateView(UserPassesTestMixin, CreateView):
+    form_class=QuizCreationForm
+    template_name='admin.html'
+    success_url=reverse_lazy('admin')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def no_permission(self):
+        raise PermissionError
+    
+class CategoryCreateView(UserPassesTestMixin, CreateView):
+    form_class=CategoryCreationForm
+    template_name='admin_Category.html'
+    success_url=reverse_lazy('admin_category')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def no_permission(self):
+        raise PermissionError
+    
+class LevelCreateView(UserPassesTestMixin, CreateView):
+    form_class=LevelCreationForm
+    template_name='admin_level.html'
+    success_url=reverse_lazy('admin_level')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def no_permission(self):
+        raise PermissionError

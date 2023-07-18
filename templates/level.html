@@ -13,10 +13,10 @@
 
             <div class="card rounded shadow-sm border-0">
                 <div class="card-body p-4"><img
-                        src="https://resources.finalsite.net/images/v1645721429/rdaleorg/qblyqgwortzxvb3q4wct/testing.jpg"
+                        src="{{level.image}}"
                         alt="" class="img-fluid d-block mx-auto mb-3">
-                    <h5> <a href="{% url 'quizzes' category_id=category_id pk=level.id %}" class="text-dark">{{level.title}}</a></h5>
-                    <p class="small text-muted font-italic">Levels
+                    <h5> <a href="" class="text-dark">{{level.title}}</a></h5>
+                    <p class="small text-muted font-italic">{{level.description}}
                     </p>
                     <ul class="list-inline small">
                         <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
@@ -25,7 +25,9 @@
                         <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
                         <li class="list-inline-item m-0"><i class="fa fa-star-o text-success"></i></li>
                     </ul>
+                    <a href="{% url 'quizzes' category_id=category_id pk=level.id %}"><button class="btn btn-primary button-transition">Start Quiz</button></a>
                 </div>
+               
             </div>
 
         </div>

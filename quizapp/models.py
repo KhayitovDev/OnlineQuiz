@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Category(models.Model):
+    image=models.URLField(max_length=500, blank=True, null=True)
     title=models.CharField(max_length=50)
     description=models.TextField()
 
@@ -10,7 +11,10 @@ class Category(models.Model):
     
     
 class Level(models.Model):
+    image=models.URLField(max_length=500, blank=True, null=True)
     title=models.CharField(max_length=50)
+    description=models.TextField()
+
 
     def __str__(self):
         return self.title

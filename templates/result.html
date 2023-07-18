@@ -15,7 +15,7 @@
                     </div>
                     <hr>
                     <div class="text-center">
-                        <a href="{% url 'leaders_board' %}" class="btn btn-primary">See Leaderboard</a>
+                        <a href="{% url 'leaders_board' category_id=result.category_id pk=result.pk %}" class="btn btn-primary button-transition">See Leaderboard</a>
                     </div>
                 </div>
             </div>
